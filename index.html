@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Viki Maulana | Portfolio</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',-apple-system,sans-serif}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{background:#05060f;color:#fff;overflow-x:hidden;line-height:1.6}
+
+  /* ================= INTRO ================= */
+  #intro{
+    position:fixed;inset:0;z-index:99999;
+    display:flex;flex-direction:column;justify-content:center;align-items:center;
+    background:linear-gradient(135deg,#05060f,#0a0f2b,#1a0533,#05060f);
+    background-size:400% 400%;
+    animation:bgMove 8s ease infinite;
+    transition:opacity .8s ease,visibility .8s ease;
+    padding:20px;text-align:center;
+  }
+  #intro.hide{opacity:0;visibility:hidden;pointer-events:none}
+  @keyframes bgMove{
+    0%,100%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+  }
+  #intro h1{
+    font-size:clamp(2.5rem,12vw,6rem);font-weight:900;letter-spacing:6px;
+    background:linear-gradient(90deg,#00e5ff,#fff,#00e5ff);
+    background-size:200% auto;-webkit-background-clip:text;background-clip:text;
+    color:transparent;animation:shine 2s linear infinite;
+    filter:drop-shadow(0 0 30px rgba(0,229,255,.8));
+    margin-bottom:15px;
+  }
+  #intro p{color:#00e5ff;letter-spacing:5px;font-size:.85rem;animation:pulse 1.5s infinite}
+  @keyframes shine{to{background-position:200% center}}
+  @keyframes pulse{0%,100%{opacity:.5}50%{opacity:1}}
+
+  .bar{width:250px;max-width:80%;height:3px;background:rgba(0,229,255,.2);border-radius:3px;margin:30px auto 0;overflow:hidden}
+  .bar::after{content:'';display:block;height:100%;width:0;background:linear-gradient(90deg,#00e5ff,#7c3aed);animation:load 3s linear forwards;box-shadow:0 0 15px #00e5ff}
+  @keyframes load{to{width:100%}}
+
+  #skipBtn{
+    margin-top:50px;padding:16px 45px;
+    border:2px solid #00e5ff;background:rgba(0,229,255,.15);
+    color:#00e5ff;border-radius:50px;
+    font-size:1rem;font-weight:700;letter-spacing:3px;
+    cursor:pointer;font-family:inherit;
+    box-shadow:0 0 30px rgba(0,229,255,.5);
+    animation:beat 1.5s ease-in-out infinite;
+    -webkit-tap-highlight-color:transparent;
+    transition:.2s;
+  }
+  #skipBtn:hover,#skipBtn:active{background:#00e5ff;color:#000;transform:scale(.95);animation:none}
+  @keyframes beat{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+
+  /* ================= MAIN ================= */
+  #main{opacity:0;transition:opacity 1s;position:relative;z-index:1}
+  #main.show{opacity:1}
+
+  /* NAVBAR */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:1000;
+    display:flex;justify-content:space-between;align-items:center;
+    padding:15px 25px;
+    background:rgba(5,6,15,.85);
+    backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);
+    border-bottom:1px solid rgba(0,229,255,.15);
+    transition:.3s;
+  }
+  nav.scrolled{padding:10px 25px;background:rgba(5,6,15,.95);box-shadow:0 5px 30px rgba(0,229,255,.15)}
+  .logo{
+    font-size:1.25rem;font-weight:900;letter-spacing:2px;
+    background:linear-gradient(90deg,#00e5ff,#7c3aed,#00e5ff);
+    background-size:200% auto;-webkit-background-clip:text;background-clip:text;
+    color:transparent;animation:shine 3s linear infinite;
+  }
+  nav ul{display:flex;list-style:none;gap:22px}
+  nav ul a{
+    color:#ccc;text-decoration:none;font-size:.78rem;letter-spacing:2px;
+    transition:.3s;position:relative;padding:5px 0;
+  }
+  nav ul a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:#00e5ff;transition:.3s;box-shadow:0 0 10px #00e5ff}
+  nav ul a:hover,nav ul a:active{color:#00e5ff}
+  nav ul a:hover::after{width:100%}
+
+  /* SECTION UMUM */
+  section{padding:80px 22px;max-width:1100px;margin:0 auto}
+  .title{
+    text-align:center;font-size:clamp(1.8rem,7vw,2.5rem);
+    font-weight:900;margin-bottom:50px;letter-spacing:1px;
+  }
+  .title span{background:linear-gradient(90deg,#00e5ff,#7c3aed);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .title::after{content:'';display:block;width:80px;height:4px;background:linear-gradient(90deg,#00e5ff,#7c3aed);margin:15px auto 0;border-radius:2px;box-shadow:0 0 20px #00e5ff}
+
+  /* ================= HERO ================= */
+  .hero{
+    min-height:100vh;display:flex;flex-direction:column;
+    justify-content:center;align-items:center;text-align:center;
+    padding:110px 22px 60px;
+  }
+  .avatar{
+    width:150px;height:150px;border-radius:50%;
+    background:linear-gradient(135deg,#00e5ff,#7c3aed);
+    padding:4px;margin-bottom:30px;
+    animation:float 4s ease-in-out infinite;
+    position:relative;
+  }
+  .avatar::before{content:'';position:absolute;inset:-12px;border-radius:50%;border:1px dashed rgba(0,229,255,.4);animation:spin 15s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-15px)}}
+  .avatar img{width:100%;height:100%;border-radius:50%;object-fit:cover;border:4px solid #05060f;display:block}
+
+  .hero .sub{color:#888;letter-spacing:4px;font-size:.85rem;margin-bottom:10px}
+  .hero h1{font-size:clamp(2rem,9vw,4.5rem);font-weight:900;letter-spacing:1px;margin-bottom:15px;line-height:1.1}
+  .hero h1 span{
+    background:linear-gradient(90deg,#00e5ff,#7c3aed,#ff0080,#00e5ff);
+    background-size:300% auto;-webkit-background-clip:text;background-clip:text;
+    color:transparent;animation:shine 4s linear infinite;
+  }
+  .hero .typed{color:#00e5ff;font-size:1.05rem;min-height:30px;margin-bottom:40px;font-weight:300}
+  .hero .typed::after{content:'|';animation:blink .8s infinite;margin-left:3px}
+  @keyframes blink{50%{opacity:0}}
+
+  /* ================= BUTTONS ================= */
+  .btns{display:flex;gap:15px;flex-wrap:wrap;justify-content:center}
+  .btn{
+    padding:14px 32px;border-radius:50px;text-decoration:none;
+    font-weight:600;letter-spacing:2px;font-size:.85rem;
+    transition:.3s;display:inline-flex;align-items:center;gap:8px;
+    cursor:pointer;border:none;font-family:inherit;
+    -webkit-tap-highlight-color:transparent;
+    position:relative;overflow:hidden;
+  }
+  .btn.p{background:linear-gradient(90deg,#00e5ff,#7c3aed);color:#fff;box-shadow:0 0 30px rgba(0,229,255,.4)}
+  .btn.p:hover,.btn.p:active{transform:translateY(-3px);box-shadow:0 10px 40px rgba(0,229,255,.7)}
+  .btn.o{border:1px solid #00e5ff;color:#00e5ff;background:transparent}
+  .btn.o:hover,.btn.o:active{background:#00e5ff;color:#000;transform:translateY(-3px);box-shadow:0 10px 40px rgba(0,229,255,.5)}
+
+  /* ================= ABOUT ================= */
+  .about-text p{color:#aaa;line-height:1.9;margin-bottom:15px;text-align:center;font-size:1rem}
+  .about-text p strong{color:#00e5ff;font-weight:600}
+
+  .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:40px}
+  .stat{
+    background:rgba(0,229,255,.05);
+    border:1px solid rgba(0,229,255,.2);
+    border-radius:15px;padding:22px 15px;text-align:center;
+    transition:.4s;position:relative;overflow:hidden;
+  }
+  .stat::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(0,229,255,.15),transparent);transition:.6s}
+  .stat:hover::before{left:100%}
+  .stat:hover,.stat:active{transform:translateY(-6px);border-color:#00e5ff;box-shadow:0 15px 40px rgba(0,229,255,.2)}
+  .stat h3{font-size:2rem;font-weight:900;background:linear-gradient(90deg,#00e5ff,#7c3aed);-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:6px}
+  .stat p{color:#888;font-size:.72rem;letter-spacing:2px}
+
+  /* ================= SKILLS ================= */
+  .skills{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:18px}
+  .skill{
+    background:rgba(255,255,255,.03);
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:15px;padding:25px 15px;text-align:center;
+    transition:.4s;position:relative;overflow:hidden;
+  }
+  .skill::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,229,255,.1),rgba(124,58,237,.1));opacity:0;transition:.4s}
+  .skill:hover::before{opacity:1}
+  .skill:hover,.skill:active{transform:translateY(-8px);border-color:#00e5ff;box-shadow:0 20px 50px rgba(0,229,255,.25)}
+  .skill .ic{font-size:2.5rem;margin-bottom:10px;display:inline-block;filter:drop-shadow(0 0 15px rgba(0,229,255,.6));position:relative;z-index:1}
+  .skill h4{font-size:1rem;margin-bottom:12px;position:relative;z-index:1}
+  .skill .b{height:4px;background:rgba(255,255,255,.1);border-radius:2px;overflow:hidden;position:relative;z-index:1}
+  .skill .b span{display:block;height:100%;width:0;background:linear-gradient(90deg,#00e5ff,#7c3aed);box-shadow:0 0 15px #00e5ff;transition:width 1.5s ease;border-radius:2px}
+
+  /* ================= PROJECTS ================= */
+  .projects{display:grid;grid-template-columns:1fr;gap:22px}
+  .proj{
+    background:rgba(255,255,255,.02);
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:20px;overflow:hidden;transition:.4s;
+    position:relative;
+  }
+  .proj:hover,.proj:active{transform:translateY(-10px);border-color:#00e5ff;box-shadow:0 25px 60px rgba(0,229,255,.3)}
+  .proj .img{
+    height:160px;
+    background:linear-gradient(135deg,#7c3aed,#00e5ff);
+    display:flex;align-items:center;justify-content:center;
+    font-size:3.5rem;position:relative;overflow:hidden;
+  }
+  .proj .img::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent,rgba(5,6,15,.9))}
+  .proj .body{padding:22px;position:relative;z-index:1}
+  .proj .body h3{font-size:1.15rem;margin-bottom:8px;letter-spacing:1px}
+  .proj .body p{color:#888;font-size:.88rem;line-height:1.6;margin-bottom:14px}
+  .tags{display:flex;gap:6px;flex-wrap:wrap}
+  .tags span{padding:4px 12px;border-radius:20px;background:rgba(0,229,255,.1);border:1px solid rgba(0,229,255,.3);color:#00e5ff;font-size:.7rem;letter-spacing:1px}
+
+  /* ================= CONTACT ================= */
+  .contact-box{text-align:center}
+  .contact-box > p{color:#aaa;margin-bottom:30px;line-height:1.8;font-size:1rem}
+  .email-btn{
+    display:inline-flex;align-items:center;gap:10px;
+    padding:16px 30px;
+    background:linear-gradient(90deg,rgba(0,229,255,.1),rgba(124,58,237,.1));
+    border:1px solid rgba(0,229,255,.3);
+    border-radius:15px;text-decoration:none;color:#fff;
+    font-size:.95rem;transition:.3s;margin-bottom:30px;
+    word-break:break-all;justify-content:center;
+    position:relative;overflow:hidden;
+    font-weight:500;letter-spacing:.5px;
+  }
+  .email-btn::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(0,229,255,.3),transparent);transition:.8s}
+  .email-btn:hover::before{left:100%}
+  .email-btn:hover,.email-btn:active{transform:scale(1.03);border-color:#00e5ff;box-shadow:0 15px 50px rgba(0,229,255,.4)}
+
+  .socials{display:flex;justify-content:center;gap:15px;flex-wrap:wrap;margin-top:10px}
+  .socials a{
+    width:52px;height:52px;border-radius:50%;
+    background:rgba(255,255,255,.03);
+    border:1px solid rgba(255,255,255,.1);
+    display:flex;align-items:center;justify-content:center;
+    color:#fff;text-decoration:none;font-size:1.2rem;
+    transition:.4s;-webkit-tap-highlight-color:transparent;
+  }
+  .socials a:hover,.socials a:active{
+    background:linear-gradient(135deg,#00e5ff,#7c3aed);
+    border-color:transparent;transform:translateY(-6px) scale(1.1);
+    box-shadow:0 15px 40px rgba(0,229,255,.5);
+  }
+
+  /* FOOTER */
+  footer{
+    text-align:center;padding:35px 20px;
+    border-top:1px solid rgba(255,255,255,.05);
+    color:#666;font-size:.8rem;letter-spacing:2px;
+  }
+  footer span{color:#00e5ff;font-weight:600}
+
+  /* BACK TO TOP */
+  #topBtn{
+    position:fixed;bottom:25px;right:25px;z-index:999;
+    width:50px;height:50px;border-radius:50%;
+    background:linear-gradient(135deg,#00e5ff,#7c3aed);
+    border:none;color:#fff;font-size:1.3rem;
+    cursor:pointer;box-shadow:0 10px 30px rgba(0,229,255,.5);
+    transition:.4s;opacity:0;visibility:hidden;
+    -webkit-tap-highlight-color:transparent;
+    display:flex;align-items:center;justify-content:center;
+  }
+  #topBtn.show{opacity:1;visibility:visible}
+  #topBtn:hover,#topBtn:active{transform:translateY(-5px) scale(1.1)}
+
+  /* REVEAL */
+  .reveal{opacity:0;transform:translateY(40px);transition:.9s cubic-bezier(.2,.8,.2,1)}
+  .reveal.on{opacity:1;transform:translateY(0)}
+
+  /* ================= RESPONSIVE ================= */
+  @media (min-width:600px){
+    .stats{grid-template-columns:repeat(4,1fr)}
+    .projects{grid-template-columns:repeat(2,1fr)}
+    .skills{grid-template-columns:repeat(3,1fr)}
+    section{padding:100px 40px}
+  }
+  @media (min-width:900px){
+    .skills{grid-template-columns:repeat(6,1fr)}
+    .projects{grid-template-columns:repeat(2,1fr)}
+  }
+  @media (max-width:480px){
+    nav ul{gap:14px}
+    nav ul a{font-size:.7rem;letter-spacing:1px}
+    section{padding:70px 18px}
+    .btn{padding:12px 24px;font-size:.78rem}
+    #skipBtn{padding:14px 32px;font-size:.85rem}
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= INTRO ================= -->
+<div id="intro">
+  <h1>WELCOME</h1>
+  <p>LOADING PORTFOLIO...</p>
+  <div class="bar"></div>
+  <button id="skipBtn" type="button">SKIP INTRO →</button>
+</div>
+
+<!-- ================= MAIN ================= -->
+<div id="main">
+
+  <!-- NAVBAR -->
+  <nav id="nav">
+    <div class="logo">VIKI.DEV</div>
+    <ul>
+      <li><a href="#about">ABOUT</a></li>
+      <li><a href="#skills">SKILLS</a></li>
+      <li><a href="#projects">PROJECT</a></li>
+      <li><a href="#contact">CONTACT</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="avatar">
+      <img src="https://api.dicebear.com/7.x/bottts-neutral/svg?seed=Viki" alt="avatar">
+    </div>
+    <p class="sub">HELLO, I'M</p>
+    <h1><span>VIKI MAULANA</span></h1>
+    <p class="typed" id="typed"></p>
+    <div class="btns">
+      <a href="#projects" class="btn p">🚀 PROJECT</a>
+      <a href="mailto:vikimaul61@gmail.com" class="btn o">✉️ EMAIL</a>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="reveal">
+    <h2 class="title">Tentang <span>Saya</span></h2>
+    <div class="about-text">
+      <p>Saya seorang <strong>Developer & Designer</strong> yang passionate bikin pengalaman digital yang modern dan keren.</p>
+      <p>Keahlian di <strong>Web Development</strong> dan <strong>UI/UX Design</strong>, siap wujudkan ide jadi realita! 🚀</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><h3 data-n="50">0</h3><p>PROJECT</p></div>
+      <div class="stat"><h3 data-n="30">0</h3><p>KLIEN</p></div>
+      <div class="stat"><h3 data-n="3">0</h3><p>TAHUN</p></div>
+      <div class="stat"><h3 data-n="100">0</h3><p>KOPI ☕</p></div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills" class="reveal">
+    <h2 class="title">My <span>Skills</span></h2>
+    <div class="skills">
+      <div class="skill"><div class="ic">🌐</div><h4>HTML5</h4><div class="b"><span data-w="95%"></span></div></div>
+      <div class="skill"><div class="ic">🎨</div><h4>CSS3</h4><div class="b"><span data-w="90%"></span></div></div>
+      <div class="skill"><div class="ic">⚡</div><h4>JavaScript</h4><div class="b"><span data-w="85%"></span></div></div>
+      <div class="skill"><div class="ic">⚛️</div><h4>React</h4><div class="b"><span data-w="80%"></span></div></div>
+      <div class="skill"><div class="ic">🐍</div><h4>Python</h4><div class="b"><span data-w="75%"></span></div></div>
+      <div class="skill"><div class="ic">✨</div><h4>UI/UX</h4><div class="b"><span data-w="88%"></span></div></div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" class="reveal">
+    <h2 class="title">My <span>Projects</span></h2>
+    <div class="projects">
+      <div class="proj">
+        <div class="img">🛒</div>
+        <div class="body">
+          <h3>E-Commerce Store</h3>
+          <p>Toko online modern dengan cart, checkout, dan payment gateway.</p>
+          <div class="tags"><span>React</span><span>Node.js</span><span>MongoDB</span></div>
+        </div>
+      </div>
+      <div class="proj">
+        <div class="img">📝</div>
+        <div class="body">
+          <h3>Task Manager</h3>
+          <p>App manajemen tugas dengan drag & drop dan reminder.</p>
+          <div class="tags"><span>Vue</span><span>Firebase</span></div>
+        </div>
+      </div>
+      <div class="proj">
+        <div class="img">🎬</div>
+        <div class="body">
+          <h3>Anime Streaming UI</h3>
+          <p>Interface streaming anime dengan animasi smooth.</p>
+          <div class="tags"><span>Next.js</span><span>Tailwind</span></div>
+        </div>
+      </div>
+      <div class="proj">
+        <div class="img">🤖</div>
+        <div class="body">
+          <h3>AI Chatbot</h3>
+          <p>Chatbot cerdas dengan integrasi API dan UI modern.</p>
+          <div class="tags"><span>Python</span><span>FastAPI</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="reveal contact-box">
+    <h2 class="title">Get In <span>Touch</span></h2>
+    <p>Punya project menarik? Jangan ragu hubungi saya! 🚀</p>
+    <a href="mailto:vikimaul61@gmail.com" class="email-btn">📧 vikimaul61@gmail.com</a>
+    <div class="socials">
+      <a href="https://github.com" target="_blank" rel="noopener" title="GitHub">💻</a>
+      <a href="https://instagram.com" target="_blank" rel="noopener" title="Instagram">📷</a>
+      <a href="https://wa.me/6281234567890" target="_blank" rel="noopener" title="WhatsApp">💬</a>
+      <a href="https://linkedin.com" target="_blank" rel="noopener" title="LinkedIn">🔗</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>© 2025 <span>VIKI MAULANA</span> — Made with 💙</footer>
+
+</div>
+
+<!-- BACK TO TOP -->
+<button id="topBtn" type="button" aria-label="Back to top">↑</button>
+
+<script>
+  /* ================= INTRO ================= */
+  (function(){
+    var intro = document.getElementById('intro');
+    var main  = document.getElementById('main');
+    var btn   = document.getElementById('skipBtn');
+    var done  = false;
+
+    function tutupIntro(){
+      if (done) return;
+      done = true;
+      if (intro) intro.classList.add('hide');
+      if (main)  main.classList.add('show');
+      setTimeout(function(){
+        if (intro) intro.style.display = 'none';
+      }, 900);
+    }
+
+    // Pasang ke tombol (semua cara biar pasti kena)
+    if (btn) {
+      btn.onclick = function(e){ e.preventDefault(); tutupIntro(); };
+      btn.addEventListener('touchstart', function(e){
+        e.preventDefault();
+        tutupIntro();
+      }, { passive: false });
+      btn.addEventListener('touchend', function(e){
+        e.preventDefault();
+        tutupIntro();
+      }, { passive: false });
+    }
+
+    // Auto-skip setelah 3.5 detik
+    setTimeout(tutupIntro, 3500);
+  })();
+
+  /* ================= TYPING ================= */
+  (function(){
+    var el = document.getElementById('typed');
+    if (!el) return;
+    var kata = ['Web Developer','UI/UX Designer','Freelancer','Anime Lover 🎌'];
+    var wi = 0, ci = 0, hapus = false;
+
+    function ngetik(){
+      var w = kata[wi];
+      el.textContent = hapus ? w.substring(0, ci--) : w.substring(0, ci++);
+      var sp = hapus ? 60 : 100;
+      if (!hapus && ci === w.length + 1){ sp = 1500; hapus = true; }
+      else if (hapus && ci === 0){ hapus = false; wi = (wi + 1) % kata.length; sp = 500; }
+      setTimeout(ngetik, sp);
+    }
+    ngetik();
+  })();
+
+  /* ================= NAVBAR SCROLL ================= */
+  (function(){
+    var nav = document.getElementById('nav');
+    var top = document.getElementById('topBtn');
+    window.addEventListener('scroll', function(){
+      var y = window.scrollY;
+      if (nav) nav.classList.toggle('scrolled', y > 40);
+      if (top) top.classList.toggle('show', y > 400);
